@@ -1,0 +1,159 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>厦门太清宫 · 生辰八字四柱排盘</title>
+  <link rel="stylesheet" href="css/style.css" />
+</head>
+<body>
+  <header class="site-header">
+    <span class="deco deco-left">☰☱☲☳</span>
+    <h1 class="site-title">厦门太清宫</h1>
+    <span class="deco deco-right">☴☵☶☷</span>
+  </header>
+  <div class="app">
+    <header class="header">
+      <h2>生辰八字 · 四柱排盘</h2>
+      <p class="subtitle">支持公历/农历、闰月、节气月、真太阳时 · 按信息密度分层输出</p>
+    </header>
+
+    <main class="main">
+      <!-- 输入区 -->
+      <section class="panel input-panel">
+        <h2>输入信息</h2>
+
+        <div class="density-tabs">
+          <span class="label">信息密度：</span>
+          <button type="button" class="tab active" data-density="1">基础</button>
+          <button type="button" class="tab" data-density="2">进阶</button>
+          <button type="button" class="tab" data-density="3">深度</button>
+        </div>
+
+        <form id="form" class="form">
+          <div class="field">
+            <label for="name">姓名</label>
+            <input id="name" name="name" type="text" placeholder="用于展示，不参与算法" />
+          </div>
+
+          <div class="field">
+            <label>日期类型</label>
+            <div class="radio-group">
+              <label><input type="radio" name="dateType" value="gregorian" checked /> 公历</label>
+              <label><input type="radio" name="dateType" value="lunar" /> 农历</label>
+            </div>
+          </div>
+
+          <div class="field row">
+            <div class="field">
+              <label for="year">年</label>
+              <input id="year" name="year" type="number" min="1900" max="2100" value="1990" />
+            </div>
+            <div class="field">
+              <label for="month">月</label>
+              <input id="month" name="month" type="number" min="1" max="12" value="5" />
+            </div>
+            <div class="field">
+              <label for="day">日</label>
+              <input id="day" name="day" type="number" min="1" max="31" value="15" />
+            </div>
+          </div>
+
+          <div id="lunarOptions" class="lunar-options" style="display:none">
+            <label class="checkbox">
+              <input type="checkbox" name="isLeapMonth" id="isLeapMonth" />
+              闰月
+            </label>
+          </div>
+
+          <div class="field density-2 density-3">
+            <label for="hour">出生时间（时辰/时分）</label>
+            <div class="row">
+              <select id="hour" name="hour">
+                <option value="">未知</option>
+                <option value="0">子 23:00-01:00</option>
+                <option value="1">丑 01:00-03:00</option>
+                <option value="2">寅 03:00-05:00</option>
+                <option value="3">卯 05:00-07:00</option>
+                <option value="4">辰 07:00-09:00</option>
+                <option value="5">巳 09:00-11:00</option>
+                <option value="6">午 11:00-13:00</option>
+                <option value="7">未 13:00-15:00</option>
+                <option value="8">申 15:00-17:00</option>
+                <option value="9">酉 17:00-19:00</option>
+                <option value="10">戌 19:00-21:00</option>
+                <option value="11">亥 21:00-23:00</option>
+              </select>
+              <input id="hourMin" name="hourMin" type="number" min="0" max="23" placeholder="时" />
+              <span>:</span>
+              <input id="minute" name="minute" type="number" min="0" max="59" placeholder="分" />
+            </div>
+          </div>
+
+          <div class="field density-2 density-3">
+            <label for="gender">性别</label>
+            <select id="gender" name="gender">
+              <option value="">不选</option>
+              <option value="male">男</option>
+              <option value="female">女</option>
+            </select>
+            <span class="hint">大运顺逆需性别</span>
+          </div>
+
+          <div class="field density-2 density-3">
+            <label for="location">出生地点</label>
+            <div class="row">
+              <input id="location" name="location" type="text" placeholder="城市或地址，用于时区与真太阳时" />
+              <button type="button" id="btnLocate" class="btn secondary">定位</button>
+            </div>
+          </div>
+
+          <div class="field density-2 density-3">
+            <label class="checkbox">
+              <input type="checkbox" name="useTrueSolar" id="useTrueSolar" />
+              使用真太阳时校正
+            </label>
+            <span class="hint">按经度校正时间（高级选项）</span>
+          </div>
+
+          <div class="field density-3">
+            <label>年界/月界模式</label>
+            <div class="radio-group">
+              <label><input type="radio" name="yearMode" value="solar" checked /> 模式A：立春年界 + 节气月</label>
+              <label><input type="radio" name="yearMode" value="lunar" /> 模式B：正月初一年界 + 农历月</label>
+            </div>
+            <p class="hint">模式A常用；模式B更贴合民间说法</p>
+          </div>
+
+          <div class="field density-3">
+            <label class="checkbox">
+              <input type="checkbox" name="premature" id="premature" />
+              早产/剖腹产备注（仅作解释层）
+            </label>
+          </div>
+
+          <div class="form-actions">
+            <button type="submit" class="btn primary">排盘</button>
+            <button type="reset" class="btn">重置</button>
+          </div>
+        </form>
+      </section>
+
+      <!-- 输出区 -->
+      <section class="panel output-panel">
+        <h2>排盘结果</h2>
+        <div id="output" class="output">
+          <p class="placeholder">填写出生信息后点击「排盘」</p>
+        </div>
+      </section>
+    </main>
+
+    <footer class="footer">
+      <p class="footer-symbol">☯</p>
+      <p>本工具仅供传统文化学习与娱乐，流派不同结论会有差异。</p>
+    </footer>
+  </div>
+
+  <script type="module" src="js/app.js"></script>
+</body>
+</html>

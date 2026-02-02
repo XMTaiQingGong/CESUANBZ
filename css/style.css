@@ -1,0 +1,395 @@
+/* 生辰八字 · 四柱排盘 - 浅色简洁 · 厦门太清宫 */
+:root {
+  --bg: #f8f6f1;
+  --bg-pattern: #f0ede6;
+  --surface: #ffffff;
+  --surface2: #f5f3ee;
+  --text: #2c2a26;
+  --textMuted: #6b6560;
+  --accent: #8b7355;
+  --accentDim: #a08b6e;
+  --border: #e0dcd4;
+  --deco: rgba(139, 115, 85, 0.12);
+  --radius: 8px;
+  --fontSans: "Noto Sans SC", "PingFang SC", "Microsoft YaHei", sans-serif;
+  --fontSerif: "Noto Serif SC", "Source Han Serif SC", "KaiTi", serif;
+}
+
+* {
+  box-sizing: border-box;
+}
+
+body {
+  margin: 0;
+  background: var(--bg);
+  color: var(--text);
+  font-family: var(--fontSans);
+  font-size: 15px;
+  line-height: 1.5;
+  min-height: 100vh;
+  position: relative;
+}
+
+body::before {
+  content: "";
+  position: fixed;
+  inset: 0;
+  background-image:
+    radial-gradient(circle at 20% 30%, var(--deco) 0%, transparent 40%),
+    radial-gradient(circle at 80% 70%, var(--deco) 0%, transparent 40%),
+    repeating-linear-gradient(
+      -45deg,
+      transparent,
+      transparent 60px,
+      rgba(139, 115, 85, 0.03) 60px,
+      rgba(139, 115, 85, 0.03) 61px
+    );
+  pointer-events: none;
+  z-index: 0;
+}
+
+.site-header {
+  position: relative;
+  z-index: 1;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 1.5rem;
+  padding: 1rem 1.5rem;
+  background: linear-gradient(180deg, var(--surface) 0%, var(--bg) 100%);
+  border-bottom: 1px solid var(--border);
+  box-shadow: 0 1px 0 rgba(255,255,255,0.8);
+}
+
+.site-title {
+  font-family: var(--fontSerif);
+  font-size: 1.5rem;
+  font-weight: 600;
+  color: var(--accent);
+  margin: 0;
+  letter-spacing: 0.2em;
+}
+
+.site-header .deco {
+  font-size: 1rem;
+  color: rgba(139, 115, 85, 0.35);
+  letter-spacing: 0.1em;
+}
+
+@media (max-width: 500px) {
+  .site-header .deco { display: none; }
+}
+
+.app {
+  position: relative;
+  z-index: 1;
+  max-width: 900px;
+  margin: 0 auto;
+  padding: 1.5rem;
+}
+
+.header {
+  text-align: center;
+  margin-bottom: 2rem;
+}
+
+.header h2 {
+  font-family: var(--fontSerif);
+  font-size: 1.35rem;
+  font-weight: 600;
+  color: var(--accent);
+  margin: 0 0 0.25rem 0;
+}
+
+.subtitle {
+  color: var(--textMuted);
+  font-size: 0.9rem;
+  margin: 0;
+}
+
+.main {
+  display: grid;
+  gap: 1.5rem;
+}
+
+.panel {
+  background: var(--surface);
+  border: 1px solid var(--border);
+  border-radius: var(--radius);
+  padding: 1.25rem 1.5rem;
+  box-shadow: 0 1px 3px rgba(0,0,0,0.04);
+}
+
+.panel h2 {
+  font-size: 1.1rem;
+  margin: 0 0 1rem 0;
+  color: var(--textMuted);
+  font-weight: 600;
+}
+
+.density-tabs {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  margin-bottom: 1rem;
+}
+
+.density-tabs .label {
+  color: var(--textMuted);
+  font-size: 0.85rem;
+}
+
+.density-tabs .tab {
+  padding: 0.35rem 0.75rem;
+  border: 1px solid var(--border);
+  background: transparent;
+  color: var(--textMuted);
+  border-radius: 4px;
+  cursor: pointer;
+  font-size: 0.85rem;
+}
+
+.density-tabs .tab:hover {
+  border-color: var(--accentDim);
+  color: var(--text);
+}
+
+.density-tabs .tab.active {
+  background: var(--accent);
+  border-color: var(--accent);
+  color: #fff;
+}
+
+.form {
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
+}
+
+.field {
+  display: flex;
+  flex-direction: column;
+  gap: 0.35rem;
+}
+
+.field.row {
+  flex-direction: row;
+  flex-wrap: wrap;
+  align-items: center;
+}
+
+.field label {
+  font-size: 0.9rem;
+  color: var(--textMuted);
+}
+
+.field input[type="text"],
+.field input[type="number"],
+.field select {
+  padding: 0.5rem 0.75rem;
+  background: var(--surface2);
+  border: 1px solid var(--border);
+  border-radius: 4px;
+  color: var(--text);
+  font-size: 0.95rem;
+  max-width: 12rem;
+}
+
+.field input:focus,
+.field select:focus {
+  outline: none;
+  border-color: var(--accentDim);
+}
+
+.radio-group {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 1rem;
+}
+
+.radio-group label {
+  display: flex;
+  align-items: center;
+  gap: 0.4rem;
+  cursor: pointer;
+  color: var(--text);
+}
+
+.checkbox {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  cursor: pointer;
+  color: var(--text);
+}
+
+.hint {
+  font-size: 0.8rem;
+  color: var(--textMuted);
+}
+
+.lunar-options {
+  margin-top: -0.5rem;
+}
+
+.row input,
+.row select {
+  max-width: none;
+}
+
+.row input[type="number"] {
+  width: 4rem;
+}
+
+.btn {
+  padding: 0.5rem 1rem;
+  border-radius: 4px;
+  border: 1px solid var(--border);
+  background: var(--surface2);
+  color: var(--text);
+  cursor: pointer;
+  font-size: 0.9rem;
+}
+
+.btn.primary {
+  background: var(--accent);
+  border-color: var(--accent);
+  color: #fff;
+  font-weight: 500;
+}
+
+.btn.primary:hover {
+  filter: brightness(1.1);
+}
+
+.btn.secondary:hover {
+  border-color: var(--accentDim);
+  color: var(--accent);
+}
+
+.form-actions {
+  display: flex;
+  gap: 0.75rem;
+  margin-top: 0.5rem;
+}
+
+/* 密度隐藏：默认只显示基础 */
+.field.density-2,
+.field.density-3 {
+  display: none;
+}
+
+body.density-2 .field.density-2,
+body.density-3 .field.density-2,
+body.density-3 .field.density-3 {
+  display: flex;
+}
+
+/* 输出区 */
+.output {
+  min-height: 120px;
+}
+
+.output .placeholder {
+  color: var(--textMuted);
+  font-style: italic;
+}
+
+.output h3 {
+  font-size: 1rem;
+  margin: 1rem 0 0.5rem 0;
+  color: var(--accent);
+}
+
+.output h3:first-child {
+  margin-top: 0;
+}
+
+.pillars {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 0.75rem;
+  margin: 0.75rem 0;
+}
+
+.pillar-box {
+  background: var(--surface2);
+  border: 1px solid var(--border);
+  border-radius: var(--radius);
+  padding: 0.75rem;
+  text-align: center;
+}
+
+.pillar-box .name {
+  font-size: 0.8rem;
+  color: var(--textMuted);
+  margin-bottom: 0.25rem;
+}
+
+.pillar-box .ganzhi {
+  font-family: var(--fontSerif);
+  font-size: 1.25rem;
+  color: var(--accent);
+}
+
+.pillar-box .detail {
+  font-size: 0.8rem;
+  color: var(--textMuted);
+  margin-top: 0.25rem;
+}
+
+.table-wrap {
+  overflow-x: auto;
+  margin: 0.5rem 0;
+}
+
+.table-wrap table {
+  width: 100%;
+  border-collapse: collapse;
+  font-size: 0.9rem;
+}
+
+.table-wrap th,
+.table-wrap td {
+  padding: 0.4rem 0.6rem;
+  text-align: left;
+  border-bottom: 1px solid var(--border);
+}
+
+.table-wrap th {
+  color: var(--textMuted);
+  font-weight: 500;
+}
+
+.disclaimer {
+  font-size: 0.85rem;
+  color: var(--textMuted);
+  margin-top: 1rem;
+  padding-top: 1rem;
+  border-top: 1px solid var(--border);
+}
+
+.export-actions {
+  margin-top: 1rem;
+}
+
+.footer {
+  text-align: center;
+  margin-top: 2rem;
+  padding-top: 1rem;
+  border-top: 1px solid var(--border);
+  font-size: 0.85rem;
+  color: var(--textMuted);
+}
+
+.footer-symbol {
+  font-size: 1.25rem;
+  color: rgba(139, 115, 85, 0.3);
+  margin: 0 0 0.5rem 0;
+}
+
+@media (max-width: 600px) {
+  .pillars {
+    grid-template-columns: repeat(2, 1fr);
+  }
+}
